@@ -1,0 +1,50 @@
+services:
+  yolov8-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: yolov8-car-damage-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount model directory as read-only
+      - ./Model:/app/Model:ro  
+      # Mount directories for persistent storage
+      - ./static:/app/static   
+      - ./uploads:/app/uploads 
+      - ./outputs:/app/outputs
+      - ./annotated_images:/app/annotated_images
+    environment:
+      - MODEL_PATH=Model/best.pt
+      - PYTHONPATH=/app
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DEBUG=false
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - yolov8-network
+    
+  # Optional: Add nginx for production reverse proxy
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: yolov8-nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #   depends_on:
+  #     - yolov8-api
+  #   restart: unless-stopped
+  #   networks:
+  #     - yolov8-network
+
+networks:
+  yolov8-network:
+    driver: bridge

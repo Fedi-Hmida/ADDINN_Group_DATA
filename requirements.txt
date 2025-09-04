@@ -1,0 +1,28 @@
+# FastAPI and server dependencies
+fastapi
+uvicorn
+python-multipart
+
+# Machine Learning and Computer Vision
+ultralytics
+opencv-python
+Pillow
+numpy
+
+# Data validation and settings
+pydantic
+pydantic-settings
+
+# Utilities
+python-dotenv
+aiofiles
+
+# Optional: GPU support (uncomment if using CUDA)
+# torch>=2.0.0+cu118
+# torchvision>=0.15.0+cu118
+
+# Development dependencies (optional)
+# pytest==7.4.2
+# pytest-asyncio==0.21.1
+# black==23.9.1
+# flake8==6.1.0
